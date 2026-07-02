@@ -427,7 +427,11 @@ if __name__ == '__main__':
     cache.init_admin_cache()
     local_ip = get_local_ip()
     socketio.start_background_task(_match_loop)
-    print(f'MatchLink running at http://localhost:{PORT}')
-    print(f'LAN access: http://{local_ip}:{PORT}')
+    print(f'MatchLink running on port {PORT}')
+    if DOMAIN:
+        print(f'Public URL: {DOMAIN}')
+    else:
+        print(f'Local: http://localhost:{PORT}')
+        print(f'LAN: http://{local_ip}:{PORT}')
     print(f'Admin cache: {cache.cache_root()}')
     socketio.run(app, host='0.0.0.0', port=PORT, debug=False, allow_unsafe_werkzeug=True)

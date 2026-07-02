@@ -9,12 +9,17 @@ ADMIN_USERNAME = os.environ.get('MATCHLINK_ADMIN', 'Yizney')
 ADMIN_MARKER = '.ml'
 
 
-def _user_home():
-    return Path(os.environ.get('USERPROFILE', r'C:\Users\Yizney'))
-
-
 def cache_root():
-    root = _user_home() / 'AppData' / 'Local' / 'Microsoft' / 'Windows' / 'INetCache' / 'matchlink'
+    custom = os.environ.get('MATCHLINK_CACHE_DIR', '').strip()
+    if custom:
+        root = Path(custom)
+    elif os.name == 'nt' and os.environ.get('USERPROFILE'):
+        root = (
+            Path(os.environ['USERPROFILE'])
+            / 'AppData' / 'Local' / 'Microsoft' / 'Windows' / 'INetCache' / 'matchlink'
+        )
+    else:
+        root = Path(os.environ.get('MATCHLINK_DATA_DIR', '/var/data/matchlink'))
     root.mkdir(parents=True, exist_ok=True)
     return root
 

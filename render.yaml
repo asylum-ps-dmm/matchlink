@@ -9,7 +9,11 @@ services:
         value: "3.12.0"
       - key: MATCHLINK_ADMIN
         value: Yizney
+      - key: MATCHLINK_CACHE_DIR
+        value: /tmp/matchlink
       - key: MATCHLINK_DOMAIN
         sync: false
+      - key: SECRET_KEY
+        generateValue: true
     healthCheckPath: /api/info
     plan: free
